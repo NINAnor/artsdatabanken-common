@@ -1,0 +1,8 @@
+# Python
+__pypackages__/
+
+# PDM
+.pdm.toml
+
+# generate.py
+*.sqlite

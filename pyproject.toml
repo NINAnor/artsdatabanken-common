@@ -1,0 +1,19 @@
+[project]
+name = "artsdatabanken-common"
+version = "0.1"
+description = "Fetch common data from artsdatabanken.no"
+authors = [
+    {name = "Francesco Frassinelli", email = "francesco.frassinelli@nina.no"},
+]
+dependencies = [
+    "openpyxl>=3.0.10",
+    "sqlite-utils>=3.26.1",
+]
+requires-python = ">=3.9"
+license = {text = "GPLv3"}
+
+[tool.pdm]
+
+[build-system]
+requires = ["pdm-pep517>=0.12.0"]
+build-backend = "pdm.pep517.api"
