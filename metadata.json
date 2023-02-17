@@ -1,0 +1,29 @@
+{
+    "databases": {
+        "common": {
+            "tables": {
+                "fab-2018": {
+                    "plugins": {
+                        "datasette-reconcile": {
+                            "name_field": "Vitenskapelig navn",
+                        }
+                    }
+                },
+                "rødlista-2021": {
+                    "plugins": {
+                        "datasette-reconcile": {
+                            "name_field": "Vitenskapelig navn",
+                        }
+                    }
+                },
+                "species": {
+                    "plugins": {
+                        "datasette-reconcile": {
+                            "name_field": "ValidScientificName",
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
