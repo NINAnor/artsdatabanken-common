@@ -33,6 +33,15 @@ requires_python = ">=3.7"
 summary = "ASGI specs, helper code, and adapters"
 
 [[package]]
+name = "beautifulsoup4"
+version = "4.12.2"
+requires_python = ">=3.6.0"
+summary = "Screen-scraping library"
+dependencies = [
+    "soupsieve>1.2",
+]
+
+[[package]]
 name = "certifi"
 version = "2023.5.7"
 requires_python = ">=3.6"
@@ -286,6 +295,12 @@ requires_python = ">=3.7"
 summary = "Sniff out which async library your code is running under"
 
 [[package]]
+name = "soupsieve"
+version = "2.4.1"
+requires_python = ">=3.7"
+summary = "A modern CSS selector implementation for Beautiful Soup."
+
+[[package]]
 name = "sqlite-fts4"
 version = "1.0.3"
 summary = "Python functions for working with SQLite FTS4 search"
@@ -327,8 +342,9 @@ dependencies = [
 
 [metadata]
 lock_version = "4.2"
+cross_platform = true
 groups = ["default", "datasette"]
-content_hash = "sha256:71499241b0c7e1d461f829d889aab621f4ccc354f5be5e7ac48c38defd4168fa"
+content_hash = "sha256:939de4fe299f2a81d26154cd7729cb68308234bb3960ee8852fe498dda5708f4"
 
 [metadata.files]
 "aiofiles 23.1.0" = [
@@ -346,6 +362,10 @@ content_hash = "sha256:71499241b0c7e1d461f829d889aab621f4ccc354f5be5e7ac48c38def
 "asgiref 3.6.0" = [
     {url = "https://files.pythonhosted.org/packages/78/2d/797c0537426266d6c9377a2ed6a4ac61e50c2d5b1ab4da101a4b9bfe26e2/asgiref-3.6.0.tar.gz", hash = "sha256:9567dfe7bd8d3c8c892227827c41cce860b368104c3431da67a0c5a65a949506"},
     {url = "https://files.pythonhosted.org/packages/8f/29/38d10a47b322a77b2d12c2b79c789f52956f733cb701d4d5157c76b5f238/asgiref-3.6.0-py3-none-any.whl", hash = "sha256:71e68008da809b957b7ee4b43dbccff33d1b23519fb8344e33f049897077afac"},
+]
+"beautifulsoup4 4.12.2" = [
+    {url = "https://files.pythonhosted.org/packages/57/f4/a69c20ee4f660081a7dedb1ac57f29be9378e04edfcb90c526b923d4bebc/beautifulsoup4-4.12.2-py3-none-any.whl", hash = "sha256:bd2520ca0d9d7d12694a53d44ac482d181b4ec1888909b035a3dbf40d0f57d4a"},
+    {url = "https://files.pythonhosted.org/packages/af/0b/44c39cf3b18a9280950ad63a579ce395dda4c32193ee9da7ff0aed547094/beautifulsoup4-4.12.2.tar.gz", hash = "sha256:492bbc69dca35d12daac71c4db1bfff0c876c00ef4a2ffacce226d4638eb72da"},
 ]
 "certifi 2023.5.7" = [
     {url = "https://files.pythonhosted.org/packages/93/71/752f7a4dd4c20d6b12341ed1732368546bc0ca9866139fe812f6009d9ac7/certifi-2023.5.7.tar.gz", hash = "sha256:0f0d56dc5a6ad56fd4ba36484d6cc34451e1c6548c61daad8c320169f91eddc7"},
@@ -746,6 +766,10 @@ content_hash = "sha256:71499241b0c7e1d461f829d889aab621f4ccc354f5be5e7ac48c38def
 "sniffio 1.3.0" = [
     {url = "https://files.pythonhosted.org/packages/c3/a0/5dba8ed157b0136607c7f2151db695885606968d1fae123dc3391e0cfdbf/sniffio-1.3.0-py3-none-any.whl", hash = "sha256:eecefdce1e5bbfb7ad2eeaabf7c1eeb404d7757c379bd1f7e5cce9d8bf425384"},
     {url = "https://files.pythonhosted.org/packages/cd/50/d49c388cae4ec10e8109b1b833fd265511840706808576df3ada99ecb0ac/sniffio-1.3.0.tar.gz", hash = "sha256:e60305c5e5d314f5389259b7f22aaa33d8f7dee49763119234af3755c55b9101"},
+]
+"soupsieve 2.4.1" = [
+    {url = "https://files.pythonhosted.org/packages/47/9e/780779233a615777fbdf75a4dee2af7a345f4bf74b42d4a5f836800b9d91/soupsieve-2.4.1.tar.gz", hash = "sha256:89d12b2d5dfcd2c9e8c22326da9d9aa9cb3dfab0a83a024f05704076ee8d35ea"},
+    {url = "https://files.pythonhosted.org/packages/49/37/673d6490efc51ec46d198c75903d99de59baffdd47aea3d071b80a9e4e89/soupsieve-2.4.1-py3-none-any.whl", hash = "sha256:1c1bfee6819544a3447586c889157365a27e10d88cde3ad3da0cf0ddf646feb8"},
 ]
 "sqlite-fts4 1.0.3" = [
     {url = "https://files.pythonhosted.org/packages/51/29/0096e8b1811aaa78cfb296996f621f41120c21c2f5cd448ae1d54979d9fc/sqlite_fts4-1.0.3-py3-none-any.whl", hash = "sha256:0359edd8dea6fd73c848989e1e2b1f31a50fe5f9d7272299ff0e8dbaa62d035f"},

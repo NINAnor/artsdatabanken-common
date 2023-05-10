@@ -10,6 +10,7 @@ from urllib.request import Request, urlopen
 
 import openpyxl
 import sqlite_utils
+from bs4 import BeautifulSoup
 
 
 def fetch(url):
@@ -110,6 +111,19 @@ def recipe_species():
         yield from recipe_specie_by_group(taxongroup["Key"])
 
 
+def recipe_artsvariabler():
+    url = "https://www.artsdatabanken.no/Pages/221282/Kodeliste_artsvariabler"
+    soup = BeautifulSoup(fetch(url), features="html.parser")
+    rows = soup.find("table").findAll("tr")
+    header = [el.text for el in rows[0].findAll("td")]
+    artsgruppe = None
+    for row in rows[1:]:
+        artsgruppe_new, kode, navn = [el.text for el in row.findAll("td")]
+        if artsgruppe_new.strip():
+            artsgruppe = artsgruppe_new
+        yield dict(zip(header, [artsgruppe, kode, navn]))
+
+
 def main(database_path, recreate):
     db = sqlite_utils.Database(database_path, recreate=recreate)
     db["species"].insert_all(recipe_species(), pk="Id")
@@ -117,6 +131,7 @@ def main(database_path, recreate):
     db["rødlista-2021"].insert_all(recipe_rodlista(), pk="Id")
     db["ninkode-1_0"].insert_all(recipe_ninkode(version="v1"), pk="KodeId")
     db["ninkode-2_3"].insert_all(recipe_ninkode(version="v2.3"), pk="KodeId")
+    db["artsvariabler"].insert_all(recipe_artsvariabler(), pk="Kode")
     # db["taxongroups"].insert_all(recipe_taxongroups(), pk="Key")
 
 
