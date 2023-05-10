@@ -124,6 +124,17 @@ def recipe_artsvariabler():
         yield dict(zip(header, [artsgruppe, kode, navn]))
 
 
+def recipe_nin(url):
+    url = url.replace("//nin.", "//data.") + "/metadata.json"
+    for row in parse_json(fetch(url))["barn"]:
+        yield {
+            "kode": row["kode"],
+            "kartkode": row["kartkode"],
+            "tittel_nb": row["tittel"]["nb"],
+            "tittel_la": row["tittel"].get("la"),
+        }
+
+
 def main(database_path, recreate):
     db = sqlite_utils.Database(database_path, recreate=recreate)
     db["species"].insert_all(recipe_species(), pk="Id")
@@ -132,6 +143,12 @@ def main(database_path, recreate):
     db["ninkode-1_0"].insert_all(recipe_ninkode(version="v1"), pk="KodeId")
     db["ninkode-2_3"].insert_all(recipe_ninkode(version="v2.3"), pk="KodeId")
     db["artsvariabler"].insert_all(recipe_artsvariabler(), pk="Kode")
+    db["nin_bs_1ar"].insert_all(
+        recipe_nin(
+            "https://nin.artsdatabanken.no/Natur_i_Norge/Natursystem/Beskrivelsessystem/Artssammensetning/Relativ_del-artsgruppesammensetning"
+        ),
+        pk="kode",
+    )
     # db["taxongroups"].insert_all(recipe_taxongroups(), pk="Key")
 
 
