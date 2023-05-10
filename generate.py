@@ -71,8 +71,8 @@ def recipe_rodlista():
     return autocast(parse_excel(fetch(url), "Vurderinger"))
 
 
-def recipe_ninkode():
-    url = "https://nin-kode-api.artsdatabanken.no/v2.3/koder/allekoder"
+def recipe_ninkode(version):
+    url = f"https://nin-kode-api.artsdatabanken.no/{version}/koder/allekoder"
     logging.info("Fetching " + url)
     for row in autocast(parse_json(fetch(url))):
         yield {
@@ -115,7 +115,8 @@ def main(database_path, recreate):
     db["species"].insert_all(recipe_species(), pk="Id")
     db["fab-2018"].insert_all(recipe_fab2018(), pk="Id")
     db["rødlista-2021"].insert_all(recipe_rodlista(), pk="Id")
-    db["ninkode-2_3"].insert_all(recipe_ninkode(), pk="KodeId")
+    db["ninkode-1_0"].insert_all(recipe_ninkode(version="v1"), pk="KodeId")
+    db["ninkode-2_3"].insert_all(recipe_ninkode(version="v2.3"), pk="KodeId")
     # db["taxongroups"].insert_all(recipe_taxongroups(), pk="Key")
 
 
