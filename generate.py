@@ -60,6 +60,12 @@ def autocast(obj):
         yield row
 
 
+def recipe_fab2023():
+    url = "https://artsdatabanken.no/lister/fremmedartslista/2023?Export=true"
+    logging.info("Fetching " + url)
+    return autocast(parse_excel(fetch(url), "Vurderinger"))
+
+
 def recipe_fab2018():
     url = "https://artsdatabanken.no/Fab2018/api/export/csv"
     logging.info("Fetching " + url)
@@ -138,6 +144,7 @@ def recipe_nin(url):
 def main(database_path, recreate):
     db = sqlite_utils.Database(database_path, recreate=recreate)
     db["species"].insert_all(recipe_species(), pk="Id")
+    db["fab-2023"].insert_all(recipe_fab2023(), pk="Id for vurderingen")
     db["fab-2018"].insert_all(recipe_fab2018(), pk="Id")
     db["rødlista-2021"].insert_all(recipe_rodlista(), pk="Id")
     db["ninkode-1_0"].insert_all(recipe_ninkode(version="v1"), pk="KodeId")
