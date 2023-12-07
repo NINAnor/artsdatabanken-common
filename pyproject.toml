@@ -17,12 +17,8 @@ license = {text = "GPLv3"}
 [project.optional-dependencies]
 datasette = [
     "datasette>=0.64.1",
-    "datasette-reconcile>=0.2.2",
+    "datasette-reconcile @ git+https://github.com/NINAnor/datasette-reconcile@extend-service",
 ]
-
-[tool.pdm]
-
-[tool.black]
 
 [tool.isort]
 # https://pycqa.github.io/isort/docs/configuration/black_compatibility.html

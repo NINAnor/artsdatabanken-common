@@ -5,14 +5,14 @@
                 "fab-2018": {
                     "plugins": {
                         "datasette-reconcile": {
-                            "name_field": "Vitenskapelig navn",
+                            "name_field": "Vitenskapelig navn"
                         }
                     }
                 },
                 "rødlista-2021": {
                     "plugins": {
                         "datasette-reconcile": {
-                            "name_field": "Vitenskapelig navn",
+                            "name_field": "Vitenskapelig navn"
                         }
                     }
                 },
@@ -20,6 +20,58 @@
                     "plugins": {
                         "datasette-reconcile": {
                             "name_field": "ValidScientificName",
+                            "properties": [
+                                {
+                                    "name": "ValidScientificNameId",
+                                    "label": "LatinskNavnID",
+                                    "type": "text"
+                                },
+                                {
+                                    "name": "Kingdom",
+                                    "label": "Kingdom",
+                                    "type": "text"
+                                },
+                                {
+                                    "name": "Class",
+                                    "label": "Class",
+                                    "type": "text"
+                                },
+                                {
+                                    "name": "Order",
+                                    "label": "Order",
+                                    "type": "text"
+                                },
+                                {
+                                    "name": "Family",
+                                    "label": "Familiy",
+                                    "type": "text"
+                                },
+                                {
+                                    "name": "Genus",
+                                    "label": "Genus",
+                                    "type": "text"
+                                },
+                                {
+                                    "name": "Species",
+                                    "label": "Species",
+                                    "type": "text"
+                                },
+                                {
+                                    "name": "SubSpecies",
+                                    "label": "SubSpecies",
+                                    "type": "text"
+                                },
+                                {
+                                    "name": "ValidScientificNameAuthorship",
+                                    "label": "Author",
+                                    "type": "text"
+                                },
+                                {
+                                    "name": "PrefferedPopularname",
+                                    "label": "NorskNavn",
+                                    "type": "text"
+                                }
+                            ]
                         }
                     }
                 }
