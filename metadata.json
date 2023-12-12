@@ -37,6 +37,11 @@
                                     "type": "text"
                                 },
                                 {
+                                    "name": "Phylum",
+                                    "label": "Phylum",
+                                    "type": "text"
+                                },
+                                {
                                     "name": "Order",
                                     "label": "Order",
                                     "type": "text"
