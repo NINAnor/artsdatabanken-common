@@ -17,6 +17,7 @@
                     }
                 },
                 "species": {
+                    "fts_table": "species_fts",
                     "plugins": {
                         "datasette-reconcile": {
                             "name_field": "ValidScientificName",

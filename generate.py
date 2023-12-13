@@ -7,6 +7,7 @@ import json
 import logging
 import os
 from urllib.request import Request, urlopen
+import sqlite3
 
 import openpyxl
 import sqlite_utils
@@ -142,7 +143,8 @@ def recipe_nin(url):
 
 
 def main(database_path, recreate):
-    db = sqlite_utils.Database(database_path, recreate=recreate)
+    connection = sqlite3.connect(database_path)
+    db = sqlite_utils.Database(connection, recreate=recreate)
     db["species"].insert_all(recipe_species(), pk="Id")
     db["fab-2023"].insert_all(recipe_fab2023(), pk="Id for vurderingen")
     db["fab-2018"].insert_all(recipe_fab2018(), pk="Id")
@@ -158,6 +160,10 @@ def main(database_path, recreate):
     )
     # db["taxongroups"].insert_all(recipe_taxongroups(), pk="Key")
 
+    # Add FTS Support
+    connection.execute('CREATE VIRTUAL TABLE IF NOT EXISTS species_fts USING FTS5(ValidScientificName, tokenize="trigram", content="species", content_rowid="Id");')
+    connection.execute('INSERT INTO species_fts (rowid, ValidScientificName) SELECT Id, ValidScientificName FROM species;')
+    connection.commit()
 
 if __name__ == "__main__":
     logging.basicConfig(level=os.getenv("LOGGING_LEVEL", "WARNING"))
