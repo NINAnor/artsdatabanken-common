@@ -23,6 +23,11 @@
                             "name_field": "ValidScientificName",
                             "properties": [
                                 {
+                                    "name": "ValidScientificName",
+                                    "label": "ScientificName",
+                                    "type": "text"
+                                },
+                                {
                                     "name": "ValidScientificNameId",
                                     "label": "LatinskNavnID",
                                     "type": "text"
