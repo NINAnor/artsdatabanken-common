@@ -6,8 +6,8 @@ import io
 import json
 import logging
 import os
-from urllib.request import Request, urlopen
 import sqlite3
+from urllib.request import Request, urlopen
 
 import openpyxl
 import sqlite_utils
@@ -43,22 +43,25 @@ def parse_json(fp):
 
 
 def autocast(obj):
-    for row in obj:
-        for key, value in row.items():
-            logging.debug("Evaluate value: %s" % value)
-            if not isinstance(value, str):
-                logging.debug("Keeping type %s" % type(value))
-                continue
-            for function in (int, float):
-                try:
-                    row[key] = function(value)
-                    logging.debug("Casted to %s" % type(row[key]))
-                    break
-                except ValueError:
-                    pass
-            else:
-                logging.debug("Fallback to string")
-        yield row
+    logging.debug("Evaluate value: %s" % obj)
+    if isinstance(obj, list):
+        return list(map(autocast, obj))
+    elif isinstance(obj, dict):
+        return {key: autocast(value) for key, value in obj.items()}
+    elif isinstance(obj, str):
+        for function in (int, float):
+            try:
+                casted = function(obj)
+                logging.debug("Casted to %s" % function)
+                return casted
+            except ValueError:
+                pass
+        else:
+            logging.debug("Fallback to string")
+        return obj
+    else:
+        logging.debug("Keeping type %s" % type(obj))
+        return obj
 
 
 def recipe_fab2023():
@@ -79,10 +82,11 @@ def recipe_rodlista():
     return autocast(parse_excel(fetch(url), "Vurderinger"))
 
 
-def recipe_ninkode(version):
+def recipe_ninkode_1or2(version):
     url = f"https://nin-kode-api.artsdatabanken.no/{version}/koder/allekoder"
     logging.info("Fetching " + url)
-    for row in autocast(parse_json(fetch(url))):
+    casted = autocast(parse_json(fetch(url)))
+    for row in casted:
         yield {
             "KodeId": row["Kode"]["Id"],
             "KodeDefinisjon": row["Kode"]["Definisjon"],
@@ -90,6 +94,29 @@ def recipe_ninkode(version):
             "Navn": row["Navn"],
             "Kategori": row["Kategori"],
         }
+
+
+def recipe_ninkode_3(version):
+    url = f"https://nin-kode-api.artsdatabanken.no/{version}/variabler/allekoder"
+    logging.info("Fetching " + url)
+    casted = autocast(parse_json(fetch(url)))
+    for row in casted["typer"]:
+        yield {
+            "KodeId": row["kode"]["id"],
+            "KodeDefinisjon": row["kode"]["definisjon"],
+            # "OverordnetKodeId"?
+            "Navn": row["navn"],
+            "Kategori": row["kategori"],
+        }
+
+
+def recipe_ninkode(version):
+    if version == "v1" or version.startswith("v2."):
+        return recipe_ninkode_1or2(version)
+    elif version.startswith("v3."):
+        return recipe_ninkode_3(version)
+    else:
+        raise Exception("Version not supported")
 
 
 def recipe_taxongroups():
@@ -149,8 +176,8 @@ def main(database_path, recreate):
     db["fab-2023"].insert_all(recipe_fab2023(), pk="Id for vurderingen")
     db["fab-2018"].insert_all(recipe_fab2018(), pk="Id")
     db["rødlista-2021"].insert_all(recipe_rodlista(), pk="Id")
-    db["ninkode-1_0"].insert_all(recipe_ninkode(version="v1"), pk="KodeId")
     db["ninkode-2_3"].insert_all(recipe_ninkode(version="v2.3"), pk="KodeId")
+    db["ninkode-3_0"].insert_all(recipe_ninkode(version="v3.0"), pk="KodeId")
     db["artsvariabler"].insert_all(recipe_artsvariabler(), pk="Kode")
     db["nin_bs_1ar"].insert_all(
         recipe_nin(
@@ -161,9 +188,14 @@ def main(database_path, recreate):
     # db["taxongroups"].insert_all(recipe_taxongroups(), pk="Key")
 
     # Add FTS Support
-    connection.execute('CREATE VIRTUAL TABLE IF NOT EXISTS species_fts USING FTS5(ValidScientificName, tokenize="trigram", content="species", content_rowid="Id");')
-    connection.execute('INSERT INTO species_fts (rowid, ValidScientificName) SELECT Id, ValidScientificName FROM species;')
+    connection.execute(
+        'CREATE VIRTUAL TABLE IF NOT EXISTS species_fts USING FTS5(ValidScientificName, tokenize="trigram", content="species", content_rowid="Id");'
+    )
+    connection.execute(
+        "INSERT INTO species_fts (rowid, ValidScientificName) SELECT Id, ValidScientificName FROM species;"
+    )
     connection.commit()
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=os.getenv("LOGGING_LEVEL", "WARNING"))
