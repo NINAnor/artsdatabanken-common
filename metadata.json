@@ -2,84 +2,89 @@
     "databases": {
         "common": {
             "tables": {
-                "fab-2018": {
+                "fremmedartslista2023": {
                     "plugins": {
                         "datasette-reconcile": {
-                            "name_field": "Vitenskapelig navn"
+                            "name_field": "vitenskapelig_navn"
                         }
                     }
                 },
-                "rødlista-2021": {
+                "rodliste2021": {
                     "plugins": {
                         "datasette-reconcile": {
-                            "name_field": "Vitenskapelig navn"
+                            "name_field": "vitenskapelig_navn"
                         }
                     }
                 },
-                "species": {
-                    "fts_table": "species_fts",
+                "nortaxa": {
+                    "fts_table": "nortaxa_fts",
                     "plugins": {
                         "datasette-reconcile": {
-                            "name_field": "ValidScientificName",
+                            "name_field": "namestring",
                             "properties": [
                                 {
-                                    "name": "ValidScientificName",
+                                    "name": "namestring",
                                     "label": "ScientificName",
                                     "type": "text"
                                 },
                                 {
-                                    "name": "ValidScientificNameId",
-                                    "label": "LatinskNavnID",
+                                    "name": "scientificnameid",
+                                    "label": "ScientificNameID",
                                     "type": "text"
                                 },
                                 {
-                                    "name": "Kingdom",
+                                    "name": "vernacularnamebokmaal",
+                                    "label": "VernacularNameBokmål",
+                                    "type": "text"
+                                },
+                                {
+                                    "name": "vernacularnamenynorsk",
+                                    "label": "VernacularNameNynorsk",
+                                    "type": "text"
+                                },
+                                {
+                                    "name": "vernacularnamenordsamisk",
+                                    "label": "VernacularNameNordSamisk",
+                                    "type": "text"
+                                },
+                                {
+                                    "name": "kingdom",
                                     "label": "Kingdom",
                                     "type": "text"
                                 },
                                 {
-                                    "name": "Class",
+                                    "name": "class",
                                     "label": "Class",
                                     "type": "text"
                                 },
                                 {
-                                    "name": "Phylum",
+                                    "name": "phylum",
                                     "label": "Phylum",
                                     "type": "text"
                                 },
                                 {
-                                    "name": "Order",
+                                    "name": "order",
                                     "label": "Order",
                                     "type": "text"
                                 },
                                 {
-                                    "name": "Family",
+                                    "name": "family",
                                     "label": "Family",
                                     "type": "text"
                                 },
                                 {
-                                    "name": "Genus",
+                                    "name": "genus",
                                     "label": "Genus",
                                     "type": "text"
                                 },
                                 {
-                                    "name": "Species",
+                                    "name": "species",
                                     "label": "Species",
                                     "type": "text"
                                 },
                                 {
                                     "name": "SubSpecies",
                                     "label": "SubSpecies",
-                                    "type": "text"
-                                },
-                                {
-                                    "name": "ValidScientificNameAuthorship",
-                                    "label": "Author",
-                                    "type": "text"
-                                },
-                                {
-                                    "name": "PrefferedPopularname",
-                                    "label": "NorskNavn",
                                     "type": "text"
                                 }
                             ]
